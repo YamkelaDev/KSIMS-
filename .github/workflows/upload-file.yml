@@ -1,29 +1,23 @@
-name: Upload File
+name: Auto-Commit Uploaded Files
 
 on:
-  workflow_dispatch:
-    inputs:
-      file:
-        description: 'Upload a file'
-        required: true
-        type: file
+  push:
+    branches:
+      - main  # Runs when a new file is added to the repository
 
 jobs:
   upload_file:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
 
-    - name: Upload file to repository
-      run: |
-        mkdir -p uploads
-        echo "${{ github.event.inputs.file }}" > uploads/${{ github.event.inputs.file }}
-
-    - name: Commit and push changes
-      run: |
-        git config --global user.name "github-actions[bot]"
-        git config --global user.email "github-actions[bot]@users.noreply.github.com"
-        git add uploads/*
-        git commit -m "Uploaded file"
-        git push
+      - name: Commit and push new files
+        env:
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}  # Use the token stored in GitHub Secrets
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add uploads/*
+          git commit -m "New file uploaded"
+          git push https://x-access-token:${{ secrets.ACTIONS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
