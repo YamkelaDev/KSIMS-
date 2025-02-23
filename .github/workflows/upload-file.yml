@@ -1,9 +1,9 @@
-name: Auto-Commit Uploaded Files
+name: Upload File Handler
 
 on:
   push:
     branches:
-      - main  # Runs when a new file is added to the repository
+      - main  # Runs when a new file is added
 
 jobs:
   upload_file:
@@ -12,9 +12,9 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Commit and push new files
+      - name: Commit and push uploaded files
         env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}  # Use the token stored in GitHub Secrets
+          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
