@@ -1,23 +1,25 @@
 name: Upload File Handler
 
-on:
-  push:
-    branches:
-      - main  # Runs when a new file is added
+on: [push]
 
 jobs:
-  upload_file:
+  upload:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+    - name: Check out repository
+      uses: actions/checkout@v2
 
-      - name: Commit and push uploaded files
-        env:
-          GITHUB_TOKEN: ${{ secrets.ACTIONS_TOKEN }}
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    - name: Set up Git user
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]YamkelaDev.noreply.github.com"
+
+    - name: Check for uploads directory
+      run: |
+        if [ -d "uploads" ] && [ "$(ls -A uploads)" ]; then
           git add uploads/*
           git commit -m "New file uploaded"
-          git push https://x-access-token:${{ secrets.ACTIONS_TOKEN }}@github.com/${{ github.repository }}.git HEAD:main
+          git push origin main
+        else
+          echo "No files to upload"
+        fi
