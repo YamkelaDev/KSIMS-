@@ -1,27 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>KSIMS</title>
-    <link rel="stylesheet" href="style.css"> 
-    
-</head>
-<body>
-    <h1>KSMS</h1>
-    <button onclick="createFolder()">New Folder</button>
-    <button onclick="createFile()">New File</button>
+{% extends "layout.html" %}
+
+{% block content %}
+<div class="file-manager">
+    <button class="btn btn-primary" onclick="createFolder()">New Folder</button>
+    <button class="btn btn-success" onclick="createFile()">New File</button>
     <div id="file-structure"></div>
-    <script src="script.js"></script>
-</body>
-    <h2>Upload a File</h2>
+</div>
+
+<!-- File Upload Section -->
+<h2>Upload a File</h2>
 <form action="https://github.com/YamkelaDev/KSIMS-/uploads" method="post" enctype="multipart/form-data">
     <input type="file" name="file">
-    <button type="submit">Upload</button>
-    <h2>Uploaded Files</h2>
-<ul id="file-list">
-    <!-- Files will be listed here -->
-</ul>
+    <button type="submit" class="btn btn-info">Upload</button>
+</form>
+
+<h2>Uploaded Files</h2>
+<ul id="file-list"></ul>
 
 <script>
     async function fetchFiles() {
@@ -58,7 +52,4 @@
 
     fetchFiles();
 </script>
-
-</form>
-
-</html>
+{% endblock %}
