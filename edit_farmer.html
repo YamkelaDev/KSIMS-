@@ -1,19 +1,9 @@
-<!DOCTYPE html>
 {% extends 'layout.html' %}
 
-{% block title %}edit_farmer{% endblock %}
+{% block title %}Edit Farmer{% endblock %}
 
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Edit Farmer</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
-</head>
-
-</head>
-<body class="container mt-5">
+<div class="container mt-5">
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             <div class="alert alert-dismissible">
@@ -68,6 +58,5 @@
         </div>
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
-	 {% endwith %}
-</body>
-</html>
+</div>
+{% endblock %}
