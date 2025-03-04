@@ -1,75 +1,27 @@
-{% extends "layout.html" %}
+{% extends "layout.html" %} 
 
 {% block content %}
 <h1 class="text-center">Welcome to KSIMS</h1>
 <p class="text-center">Your reliable system for managing files, expenses, and company status.</p>
 
-<!-- File Manager Section -->
-<div class="file-manager">
-    <button class="btn btn-primary" onclick="createFolder()">New Folder</button>
-    <button class="btn btn-success" onclick="createFile()">New File</button>
-    <div id="file-structure"></div>
+<!-- File Management Buttons -->
+<div class="text-center mt-4">
+    <button class="btn btn-primary">New Folder</button>
+    <button class="btn btn-success">New File</button>
 </div>
 
-<!-- File Upload Section -->
-<h2>Upload a File</h2>
-<form id="uploadForm">
-    <input type="file" id="fileInput">
-    <button type="button" class="btn btn-info" onclick="uploadFile()">Upload</button>
+<!-- File Upload -->
+<form class="mt-4 text-center" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file">
+    <button type="submit" class="btn btn-info">Upload</button>
 </form>
 
-<h2>Uploaded Files</h2>
-<ul id="file-list"></ul>
-
-<script>
-    const repoOwner = "YamkelaDev";
-    const repoName = "KSIMS-";
-    let currentPath = "uploads";
-
-    // Function to load folders and files from a given path
-    function loadFolders(path) {
-        const apiUrl = `https://api.github.com/repos/${repoOwner}/${repoName}/contents/${path}`;
-        fetch(apiUrl)
-            .then(response => response.json())
-            .then(data => {
-                let fileStructure = document.getElementById("file-structure");
-                fileStructure.innerHTML = "";
-                data.forEach(item => {
-                    let element = document.createElement("div");
-                    if (item.type === "dir") {
-                        // Button to navigate into subfolder
-                        element.innerHTML = `<button class='btn btn-link' onclick='loadFolders("${item.path}")'>📁 ${item.name}</button>`;
-                    } else {
-                        // Link to file
-                        element.innerHTML = `<a href='${item.download_url}' target='_blank'>📄 ${item.name}</a>`;
-                    }
-                    fileStructure.appendChild(element);
-                });
-            });
-    }
-
-    // Function to simulate creating a folder (placeholder)
-    function createFolder() {
-        alert("Create Folder functionality to be implemented.");
-    }
-
-    // Function to simulate creating a file (placeholder)
-    function createFile() {
-        alert("Create File functionality to be implemented.");
-    }
-
-    // Function to simulate file upload (note: actual upload requires GitHub API authentication)\n
-    function uploadFile() {
-        let fileInput = document.getElementById("fileInput").files[0];
-        if (!fileInput) {
-            alert("Please select a file");
-            return;
-        }
-        alert("File upload functionality requires GitHub API authentication.");
-    }
-
-    // Load the initial folder structure
-    loadFolders(currentPath);
-</script>
+<!-- File List -->
+<div class="mt-4" id="file-structure">
+    <h3>Uploaded Files</h3>
+    <ul class="list-group">
+        <li class="list-group-item">File1.txt</li>
+        <li class="list-group-item">Report.pdf</li>
+    </ul>
+</div>
 {% endblock %}
-
