@@ -1,7 +1,5 @@
 body {
     font-family: Arial, sans-serif;
-    text-align: center;
-    margin: 20px;
 }
 
 h1 {
@@ -36,17 +34,3 @@ button:hover {
     background-color: #f9f9f9;
 }
 
-.folder, .file {
-    padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-}
-
-.folder {
-    background-color: #e0f7fa;
-}
-
-.file {
-    background-color: #fff3e0;
-}
