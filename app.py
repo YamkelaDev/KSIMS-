@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 app.secret_key = 'Sister_Bethina'
 UPLOAD_FOLDER = 'documents'
-GIT_REPO_PATH = '/YamkelaDev/KSIMS-/' 
+GIT_REPO_PATH = 'C:\Users\magay\Documents\KSIMS->' 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Ensure upload folder exists
