@@ -4,9 +4,9 @@ import subprocess
 from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'Sister_Bethina'
 UPLOAD_FOLDER = 'documents'
-GIT_REPO_PATH = '/path/to/your/github/repo'  # Change this to your actual GitHub repo path
+GIT_REPO_PATH = '/YamkelaDev/KSIMS-/' 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 # Ensure upload folder exists
