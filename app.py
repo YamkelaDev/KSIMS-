@@ -1,55 +1,60 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, session, flash, send_from_directory
 import os
-import subprocess
-from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
-app.secret_key = 'Sister_Bethina'
+app.secret_key = 'secure_key_here'
+
+# Folder for storing files
 UPLOAD_FOLDER = 'documents'
-GIT_REPO_PATH = 'C:\Users\magay\Documents\KSIMS->' 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
-# Ensure upload folder exists
-os.makedirs(UPLOAD_FOLDER, exist_ok=True)
+# Ensure folders exist
+def create_default_folders():
+    folder_structure = {
+        'Filing System': ['Finance', 'HR', 'Projects', 'Legal'],
+        'Expense Tracker': []
+    }
+    for main_folder, subfolders in folder_structure.items():
+        main_path = os.path.join(UPLOAD_FOLDER, main_folder)
+        os.makedirs(main_path, exist_ok=True)
+        for subfolder in subfolders:
+            os.makedirs(os.path.join(main_path, subfolder), exist_ok=True)
 
-def git_sync(commit_message):
-    try:
-        subprocess.run(['git', 'add', '.'], cwd=GIT_REPO_PATH, check=True)
-        subprocess.run(['git', 'commit', '-m', commit_message], cwd=GIT_REPO_PATH, check=True)
-        subprocess.run(['git', 'push', 'origin', 'main'], cwd=GIT_REPO_PATH, check=True)
-    except subprocess.CalledProcessError as e:
-        print(f'Git error: {e}')
-
+# Home Page - Welcoming Message
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return render_template('welcome.html')
 
-@app.route('/upload', methods=['POST'])
-def upload_file():
-    if 'file' not in request.files:
-        flash('No file part', 'danger')
-        return redirect(request.url)
-    file = request.files['file']
-    if file.filename == '':
-        flash('No selected file', 'danger')
-        return redirect(request.url)
-    filename = secure_filename(file.filename)
-    file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    git_sync(f'Added {filename}')
-    flash('File uploaded successfully!', 'success')
-    return redirect(url_for('home'))
+# Login Page
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        email = request.form['email']
+        password = request.form['password']
+        # TODO: Implement user authentication
+        session['user'] = email  # Temporary
+        return redirect(url_for('dashboard'))
+    return render_template('login.html')
 
-@app.route('/create_folder', methods=['POST'])
-def create_folder():
-    folder_name = request.form.get('folder_name', '').strip()
-    if not folder_name:
-        flash('Folder name cannot be empty', 'danger')
-        return redirect(url_for('home'))
-    folder_path = os.path.join(app.config['UPLOAD_FOLDER'], folder_name)
-    os.makedirs(folder_path, exist_ok=True)
-    git_sync(f'Created folder {folder_name}')
-    flash(f'Folder "{folder_name}" created successfully!', 'success')
-    return redirect(url_for('home'))
+# User Dashboard
+@app.route('/dashboard')
+def dashboard():
+    if 'user' not in session:
+        return redirect(url_for('login'))
+    return render_template('dashboard.html', username=session['user'])
 
+# Filing System Page
+@app.route('/filing_system')
+def filing_system():
+    folders = os.listdir(os.path.join(app.config['UPLOAD_FOLDER'], 'Filing System'))
+    return render_template('filing_system.html', folders=folders)
+
+# Expense Tracker Page
+@app.route('/expense_tracker')
+def expense_tracker():
+    return render_template('expense_tracker.html')
+
+# Run App
 if __name__ == '__main__':
+    create_default_folders()
     app.run(debug=True)
