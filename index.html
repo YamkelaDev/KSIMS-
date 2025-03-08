@@ -105,4 +105,28 @@ button:hover {
     background: #eee;
     padding: 10px;
     margin: 5px 0;
-    b
+    border-radius: 5px;
+}
+.modal {
+    display: none;
+    position: fixed;
+    left: 0; 
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+}
+.modal-content {
+    background: white;
+    padding: 20px;
+    margin: 15% auto;
+    width: 300px;
+    border-radius: 5px;
+}
+.close {
+    float: right;
+    cursor: pointer;
+}
+</style>
+
+{% endblock %}
