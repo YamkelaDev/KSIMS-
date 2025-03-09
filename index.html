@@ -1,132 +1,21 @@
-{% extends "layout.html" %} 
-
-{% block content %}
-<div class="container">
-    <h2>Welcome to KSIMS</h2>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSIMS Welcome</title>
+    <style>
+        body {
+            background-image: url('path/to/chili-background.jpg');
+            background-size: cover;
+            text-align: center;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome to KSIMS</h1>
     <p>Your reliable system for managing files, expenses, and company status.</p>
-
-    <!-- Folder & File Management Section -->
-    <div class="actions">
-        <button onclick="showCreateFolder()">📁 New Folder</button>
-        <button onclick="document.getElementById('fileUpload').click()">📄 New File</button>
-        <input type="file" id="fileUpload" style="display: none;" onchange="uploadFile()">
-    </div>
-
-    <!-- Folder & File List -->
-    <div class="file-list">
-        <h3>Uploaded Files</h3>
-        <ul id="fileContainer">
-            <li>📄 File1.txt</li>
-            <li>📑 Report.pdf</li>
-        </ul>
-    </div>
-</div>
-
-<!-- Modal for Creating Folder -->
-<div id="folderModal" class="modal">
-    <div class="modal-content">
-        <span class="close" onclick="closeModal()">&times;</span>
-        <h3>Create New Folder</h3>
-        <input type="text" id="folderName" placeholder="Folder Name">
-        <button onclick="createFolder()">Create</button>
-    </div>
-</div>
-
-<!-- JavaScript -->
-<script>
-function showCreateFolder() {
-    document.getElementById('folderModal').style.display = 'block';
-}
-
-function closeModal() {
-    document.getElementById('folderModal').style.display = 'none';
-}
-
-function createFolder() {
-    let folderName = document.getElementById('folderName').value;
-    if (folderName.trim() === "") {
-        alert("Folder name cannot be empty!");
-        return;
-    }
-    // Call API to create folder (to be linked with Flask)
-    console.log("Creating folder:", folderName);
-    closeModal();
-}
-
-function uploadFile() {
-    let fileInput = document.getElementById('fileUpload');
-    let fileName = fileInput.files[0].name;
-    console.log("Uploading file:", fileName);
-    document.getElementById('fileContainer').innerHTML += `<li>📄 ${fileName}</li>`;
-}
-</script>
-
-<!-- Styles -->
-<style>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f4f4f4;
-}
-.container {
-    max-width: 600px;
-    margin: auto;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
-}
-h2 {
-    text-align: center;
-}
-.actions {
-    display: flex;
-    gap: 10px;
-    justify-content: center;
-    margin: 20px 0;
-}
-button {
-    padding: 10px;
-    background: #007BFF;
-    color: white;
-    border: none;
-    cursor: pointer;
-    border-radius: 5px;
-}
-button:hover {
-    background: #0056b3;
-}
-.file-list ul {
-    list-style-type: none;
-    padding: 0;
-}
-.file-list li {
-    background: #eee;
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-}
-.modal {
-    display: none;
-    position: fixed;
-    left: 0; 
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-}
-.modal-content {
-    background: white;
-    padding: 20px;
-    margin: 15% auto;
-    width: 300px;
-    border-radius: 5px;
-}
-.close {
-    float: right;
-    cursor: pointer;
-}
-</style>
-
-{% endblock %}
+    <button onclick="location.href='signin.html'">Enter</button>
+</body>
+</html>
