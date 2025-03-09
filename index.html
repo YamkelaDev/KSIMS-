@@ -17,5 +17,59 @@
     <h1>Welcome to KSIMS</h1>
     <p>Your reliable system for managing files, expenses, and company status.</p>
     <button onclick="location.href='signin.html'">Enter</button>
+    <!-- Folder & File Management Section -->
+<div class="actions">
+    <button onclick="showCreateFolder()">📁 New Folder</button>
+    <button onclick="document.getElementById('fileUpload').click()">📄 New File</button>
+    <input type="file" id="fileUpload" style="display: none;" onchange="uploadFile()">
+</div>
+
+<!-- Folder & File List -->
+<div class="file-list">
+    <h3>Uploaded Files</h3>
+    <ul id="fileContainer">
+        <li>📄 File1.txt</li>
+        <li>📑 Report.pdf</li>
+    </ul>
+</div>
+
+<!-- Modal for Creating Folder -->
+<div id="folderModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="closeModal()">&times;</span>
+        <h3>Create New Folder</h3>
+        <input type="text" id="folderName" placeholder="Folder Name">
+        <button onclick="createFolder()">Create</button>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+function showCreateFolder() {
+    document.getElementById('folderModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('folderModal').style.display = 'none';
+}
+
+function createFolder() {
+    let folderName = document.getElementById('folderName').value;
+    if (folderName.trim() === "") {
+        alert("Folder name cannot be empty!");
+        return;
+    }
+    // Call API to create folder (to be linked with Flask)
+    console.log("Creating folder:", folderName);
+    closeModal();
+}
+
+function uploadFile() {
+    let fileInput = document.getElementById('fileUpload');
+    let fileName = fileInput.files[0].name;
+    console.log("Uploading file:", fileName);
+    document.getElementById('fileContainer').innerHTML += `<li>📄 ${fileName}</li>`;
+}
+</script>
 </body>
 </html>
